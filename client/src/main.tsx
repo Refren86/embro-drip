@@ -3,8 +3,8 @@ import ReactDOM from "react-dom/client";
 
 import { App } from "@/components/App";
 
-import "swiper/css";
-import "swiper/css/pagination";
+import "swiper/scss";
+import "swiper/scss/pagination";
 import "./styles/global.scss";
 
 import "./lib/i18n";

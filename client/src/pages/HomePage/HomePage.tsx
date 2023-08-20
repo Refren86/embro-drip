@@ -3,7 +3,7 @@ import { Autoplay, Pagination } from "swiper/modules";
 
 import { Layout } from "../../components/Layout";
 import SlidePlaceholder from "../../assets/images/slider/slider-placeholder.webp";
-import { Categories } from "./components/Categories";
+import { Categories } from "./components/Categories/Categories";
 
 function Home() {
   return (

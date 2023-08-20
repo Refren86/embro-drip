@@ -1,0 +1,34 @@
+{
+  "navbar": {
+    "promotion": "Зареєструйтесь та отримайте <b>знижку 20%</b> на перше замовлення. <Link><b>Зареєструватись</b></Link>"
+  },
+  "login": {
+    "title": "Увійти",
+    "email": "Е-Мейл",
+    "password": "Пароль",
+    "signIn": "Увійти",
+    "signUpRedirect": "Немає аккаунту? <Link>Зареєструватись</Link",
+    "emailError": "Введено невірний формат",
+    "passwordError": "Пароль надто короткий"
+  },
+  "signUp": {
+    "title": "Реєстрація",
+    "name": "Ім'я",
+    "surname": "Прізвище",
+    "email": "Е-Мейл",
+    "password": "Пароль",
+    "signUp": "Зареєструватися",
+    "signInRedirect": "Уже зареєстровані? <Link>Увійти</Link",
+    "emailError": "Ivalid E-Mail format",
+    "passwordError": "Password is too short"
+  },
+  "categories": {
+    "title": "Категорії",
+    "hoodies": "Худі",
+    "tshirts": "Футболки",
+    "caps": "Кепки",
+    "men": "Чоловіче",
+    "women": "Жіноче",
+    "seeAll": "Дивитись усі"
+  }
+}

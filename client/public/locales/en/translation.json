@@ -1,0 +1,34 @@
+{
+  "navbar": {
+    "promotion": "Sign up and get <b>20% discount</b> on your first order. <Link><b>Sign up</b></Link>"
+  },
+  "login": {
+    "title": "Login",
+    "email": "E-Mail",
+    "password": "Password",
+    "signIn": "Sign In",
+    "signUpRedirect": "Not registered yet? <Link>Sign Up</Link",
+    "emailError": "Ivalid E-Mail format",
+    "passwordError": "Password is too short"
+  },
+  "signUp": {
+    "title": "Sign Up",
+    "name": "Name",
+    "surname": "Surname",
+    "email": "E-Mail",
+    "password": "Password",
+    "signUp": "Sign Up",
+    "signInRedirect": "Already registered? <Link>Sign In</Link",
+    "emailError": "Ivalid E-Mail format",
+    "passwordError": "Password is too short"
+  },
+  "categories": {
+    "title": "Categories",
+    "hoodies": "Hoodies",
+    "tshirts": "T-Shirts",
+    "caps": "Caps",
+    "men": "Men",
+    "women": "Women",
+    "seeAll": "See All"
+  }
+}

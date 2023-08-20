@@ -1,8 +1,10 @@
 import { z } from "zod";
+import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { Trans, useTranslation } from "react-i18next";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/Dialog";
-import { useForm } from "react-hook-form";
 import {
   Form,
   FormControl,
@@ -13,7 +15,7 @@ import {
 } from "./ui/Form";
 import { Input } from "./ui/Input";
 import { Button } from "./ui/Button";
-import { Link } from "react-router-dom";
+import { trailingDots } from "@/lib/utils";
 
 type LoginModalProps = {
   isOpen: boolean;
@@ -21,12 +23,18 @@ type LoginModalProps = {
   toggleModals: () => void;
 };
 
-const loginSchema = z.object({
-  email: z.string().email({ message: "Введено невірний формат" }),
-  password: z.string().min(6, "Пароль надто короткий"),
-});
+function LoginModal({
+  isOpen,
+  toggleLoginModal,
+  toggleModals,
+}: LoginModalProps) {
+  const { t } = useTranslation();
 
-function LoginModal({ isOpen, toggleLoginModal, toggleModals }: LoginModalProps) {
+  const loginSchema = z.object({
+    email: z.string().email({ message: t("login.emailError") }),
+    password: z.string().min(6, t("login.passwordError")),
+  });
+
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -44,7 +52,9 @@ function LoginModal({ isOpen, toggleLoginModal, toggleModals }: LoginModalProps)
     <Dialog open={isOpen} onOpenChange={toggleLoginModal}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className="text-2xl font-bold">Логін</DialogTitle>
+          <DialogTitle className="text-2xl font-bold">
+            {t("login.title")}
+          </DialogTitle>
         </DialogHeader>
 
         <Form {...form}>
@@ -57,9 +67,13 @@ function LoginModal({ isOpen, toggleLoginModal, toggleModals }: LoginModalProps)
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Ел. пошта</FormLabel>
+                  <FormLabel>{t("login.email")}</FormLabel>
                   <FormControl>
-                    <Input type="email" placeholder="Е-мейл..." {...field} />
+                    <Input
+                      type="email"
+                      placeholder={trailingDots(t("login.email"))}
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -71,24 +85,38 @@ function LoginModal({ isOpen, toggleLoginModal, toggleModals }: LoginModalProps)
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Пароль</FormLabel>
+                  <FormLabel>{t("login.password")}</FormLabel>
                   <FormControl>
-                    <Input type="password" placeholder="Пароль..." {...field} />
+                    <Input
+                      type="password"
+                      placeholder={trailingDots(t("login.password"))}
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
 
-            <Button type="submit" className="w-full">
-              Увійти
-            </Button>
+            <div className="pt-2">
+              <Button type="submit" className="w-full">
+                {t("login.signIn")}
+              </Button>
+            </div>
 
             <p className="text-center">
-              Немає аккаунту?{" "}
-              <Link to="?sign-up=true" className="underline" onClick={toggleModals}>
-                Зареєструватись
-              </Link>
+              <Trans
+                i18nKey="login.signUpRedirect"
+                components={{
+                  Link: (
+                    <Link
+                      to="?sign-up=true"
+                      className="underline"
+                      onClick={toggleModals}
+                    />
+                  ),
+                }}
+              />
             </p>
           </form>
         </Form>

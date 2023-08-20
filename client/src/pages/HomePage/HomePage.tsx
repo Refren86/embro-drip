@@ -1,13 +1,11 @@
-import { Trans, useTranslation } from "react-i18next";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
 
 import { Layout } from "../../components/Layout";
 import SlidePlaceholder from "../../assets/images/slider/slider-placeholder.webp";
+import { Categories } from "./components/Categories";
 
 function Home() {
-  const { t } = useTranslation();
-
   return (
     <Layout>
       <div className="max-w-[1600px] mx-auto px-4 pt-12 h-[200vh]">
@@ -59,24 +57,7 @@ function Home() {
           </Swiper>
         </div>
 
-        <div className="mt-24">
-          <h2 className="font-bold text-4xl">Категорії</h2>
-
-          <p>
-            <Trans i18nKey="description.part1">
-              Edit <code>src/App.js</code> and save to reload.
-            </Trans>
-          </p>
-
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {t("description.part2")}
-          </a>
-        </div>
+        <Categories />
       </div>
     </Layout>
   );

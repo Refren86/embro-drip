@@ -14,6 +14,8 @@ import {
 import { Input } from "./ui/Input";
 import { Button } from "./ui/Button";
 import { Link } from "react-router-dom";
+import { Trans, useTranslation } from "react-i18next";
+import { trailingDots } from "@/lib/utils";
 
 type SignUpModalProps = {
   isOpen: boolean;
@@ -28,7 +30,13 @@ const signUpSchema = z.object({
   password: z.string().min(6, "Пароль надто короткий"),
 });
 
-function SignUpModal({ isOpen, toggleSignUpModal, toggleModals }: SignUpModalProps) {
+function SignUpModal({
+  isOpen,
+  toggleSignUpModal,
+  toggleModals,
+}: SignUpModalProps) {
+  const { t } = useTranslation();
+
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
@@ -48,7 +56,9 @@ function SignUpModal({ isOpen, toggleSignUpModal, toggleModals }: SignUpModalPro
     <Dialog open={isOpen} onOpenChange={toggleSignUpModal}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className="text-2xl font-bold">Реєстрація</DialogTitle>
+          <DialogTitle className="text-2xl font-bold">
+            {t("signUp.title")}
+          </DialogTitle>
         </DialogHeader>
 
         <Form {...form}>
@@ -61,9 +71,13 @@ function SignUpModal({ isOpen, toggleSignUpModal, toggleModals }: SignUpModalPro
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Ім'я</FormLabel>
+                  <FormLabel>{t("signUp.name")}</FormLabel>
                   <FormControl>
-                    <Input type="text" placeholder="Ім'я..." {...field} />
+                    <Input
+                      type="text"
+                      placeholder={trailingDots(t("signUp.name"))}
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -75,9 +89,13 @@ function SignUpModal({ isOpen, toggleSignUpModal, toggleModals }: SignUpModalPro
               name="surname"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Прізвище</FormLabel>
+                  <FormLabel>{t("signUp.surname")}</FormLabel>
                   <FormControl>
-                    <Input type="text" placeholder="Прізвище..." {...field} />
+                    <Input
+                      type="text"
+                      placeholder={trailingDots(t("signUp.surname"))}
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -89,9 +107,13 @@ function SignUpModal({ isOpen, toggleSignUpModal, toggleModals }: SignUpModalPro
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Ел. пошта</FormLabel>
+                  <FormLabel>{t("signUp.email")}</FormLabel>
                   <FormControl>
-                    <Input type="email" placeholder="Е-мейл..." {...field} />
+                    <Input
+                      type="email"
+                      placeholder={trailingDots(t("signUp.email"))}
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -103,24 +125,38 @@ function SignUpModal({ isOpen, toggleSignUpModal, toggleModals }: SignUpModalPro
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Пароль</FormLabel>
+                  <FormLabel>{t("signUp.password")}</FormLabel>
                   <FormControl>
-                    <Input type="password" placeholder="Пароль..." {...field} />
+                    <Input
+                      type="password"
+                      placeholder={trailingDots(t("signUp.password"))}
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
 
-            <Button type="submit" className="w-full">
-              Створити аккаунт
-            </Button>
+            <div className="pt-2">
+              <Button type="submit" className="w-full">
+                {t("signUp.signUp")}
+              </Button>
+            </div>
 
             <p className="text-center">
-              Уже зареєструвались?{" "}
-              <Link to="?login=true" className="underline" onClick={toggleModals}>
-                Увійти в аккаунт
-              </Link>
+              <Trans
+                i18nKey="login.signUpRedirect"
+                components={{
+                  Link: (
+                    <Link
+                      to="?login=true"
+                      className="underline"
+                      onClick={toggleModals}
+                    />
+                  ),
+                }}
+              />
             </p>
           </form>
         </Form>

@@ -1,18 +1,23 @@
 import { useState } from "react";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 import { Link, useSearchParams } from "react-router-dom";
 import { ShoppingCart, User } from "lucide-react";
-import { cn } from "@/lib/utils";
 
+import { cn, getCountryFlagCodeByLanguage } from "@/lib/utils";
 import Logo from "../assets/icons/logo-white.svg";
 import { LoginModal } from "./LoginModal";
 import { SignUpModal } from "./SignUpModal";
 
-type Language = Record<string, { nativeName: "EN" | "UA" }>;
+type LanguagesCodes = "en" | "uk";
+type NativeNames = {
+  nativeName: "EN" | "UA";
+};
 
-const lngs: Language = {
-  gb: { nativeName: "EN" },
-  ua: { nativeName: "UA" },
+type Languages = Record<LanguagesCodes, NativeNames>;
+
+const lngs: Languages = {
+  en: { nativeName: "EN" },
+  uk: { nativeName: "UA" },
 };
 
 function Navbar() {
@@ -56,28 +61,31 @@ function Navbar() {
     <div>
       <div className="bg-primary h-8 flex justify-center items-center">
         <p>
-          Зареєструйтесь та отримайте <b>знижку 20%</b> на перше замовлення.{" "}
-          <Link
-            to="?sign-up=true"
-            onClick={toggleSignUpModal}
-            className="underline"
-          >
-            <b>Зареєструватись</b>
-          </Link>
+          <Trans
+            i18nKey="navbar.promotion"
+            components={{
+              b: <b />,
+              Link: (
+                <Link
+                  to="?sign-up=true"
+                  onClick={toggleSignUpModal}
+                  className="underline"
+                />
+              ),
+            }}
+          />
         </p>
       </div>
       <nav className="bg-secondary h-16">
         <div className="flex justify-between items-center max-w-[1600px] mx-auto px-4 h-full">
           {/* Left */}
-          <div>
-            <Link to="/">
-              <img src={Logo} width={200} />
-            </Link>
-          </div>
+          <Link to="/">
+            <img src={Logo} width={200} />
+          </Link>
 
           {/* Right */}
           <div className="flex items-center gap-x-4">
-            <div className="flex gap-x-4">
+            <div className="flex gap-x-3">
               {Object.keys(lngs).map((lng) => (
                 <button
                   key={lng}
@@ -85,14 +93,17 @@ function Navbar() {
                     "flex items-center gap-x-1 h-[42px] text-muted-foreground",
                     i18n.resolvedLanguage === lng && "text-foreground"
                   )}
-                  type="submit"
-                  onClick={() => i18n.changeLanguage(lng)}
+                  onClick={() => {
+                    i18n.changeLanguage(lng);
+                  }}
                 >
                   <img
-                    src={`https://hatscripts.github.io/circle-flags/flags/${lng}.svg`}
+                    src={`https://hatscripts.github.io/circle-flags/flags/${getCountryFlagCodeByLanguage(
+                      lng as LanguagesCodes
+                    )}.svg`}
                     width="16"
                   />
-                  {lngs[lng].nativeName}
+                  {lngs[lng as LanguagesCodes].nativeName}
                 </button>
               ))}
             </div>

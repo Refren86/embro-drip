@@ -12,8 +12,6 @@ function Categories() {
   const [isBeginning, setIsBeginning] = useState<boolean>(true);
   const [isEnd, setIsEnd] = useState<boolean>(false);
 
-  console.log(categorySwiper);
-
   const handleSwipeProgress = useCallback((swiper: SwiperType) => {
     if (!swiper.isBeginning && !swiper.isEnd) {
       setIsBeginning(false);

@@ -29,8 +29,6 @@ const CategoriesSwiper = memo(
   }: CategoriesSwiperProps) => {
     const { t } = useTranslation();
 
-    console.log("Rendered !!!");
-
     const categories = [
       {
         image: HoodiesImg,

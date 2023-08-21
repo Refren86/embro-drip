@@ -8,7 +8,7 @@ import { Categories } from "./components/Categories/Categories";
 function Home() {
   return (
     <Layout>
-      <div className="max-w-[1600px] mx-auto px-4 pt-12 h-[200vh]">
+      <div className="max-w-[1600px] mx-auto px-4 pt-12">
         <div>
           <Swiper
             spaceBetween={30}

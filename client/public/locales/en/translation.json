@@ -30,5 +30,9 @@
     "men": "Men",
     "women": "Women",
     "seeAll": "See All"
+  },
+  "subscribe": {
+    "text": "Subscribe for updates:",
+    "button": "Subscribe"
   }
 }

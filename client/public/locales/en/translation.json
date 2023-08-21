@@ -34,5 +34,13 @@
   "subscribe": {
     "text": "Subscribe for updates:",
     "button": "Subscribe"
+  },
+  "contacts": {
+    "title": "Contacts",
+    "phone": "Phone:",
+    "email": "E-Mail:",
+    "schedule": "Schedule:",
+    "weekdays": "Mon-Fri:",
+    "weekends": "Sat-Sun:"
   }
 }

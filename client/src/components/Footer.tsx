@@ -52,6 +52,7 @@ function Footer() {
             <nav className="flex flex-col gap-y-2">
               {categories.map((category) => (
                 <Link
+                key={category.title}
                   to={`/categories/${category.endpoint}`}
                   className="hover:text-primary transition-text duration-300"
                 >
@@ -59,6 +60,26 @@ function Footer() {
                 </Link>
               ))}
             </nav>
+          </div>
+
+          <div>
+            <h3 className="font-bold text-xl mb-4">{t("contacts.title")}</h3>
+
+            <div className="flex flex-col gap-y-2">
+              <div>
+                <p className="font-semibold">{t("contacts.phone")}</p>
+                <a>+1234567890</a>
+              </div>
+              <div>
+                <p className="font-semibold">{t("contacts.email")}</p>
+                <a>example@gmail.com</a>
+              </div>
+              <div>
+                <p className="font-semibold">{t("contacts.schedule")}</p>
+                <p>{t("contacts.weekdays")} 10:00-21:00</p>
+                <p>{t("contacts.weekends")} 10:00-20:00</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>

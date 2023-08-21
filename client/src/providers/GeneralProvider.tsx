@@ -5,7 +5,14 @@ import { ThemeProvider } from "./ThemeProvider";
 
 function GeneralProvider({ children }: { children: ReactNode }) {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense
+      fallback={
+        // TODO: add fancy loader
+        <div className="h-screen bg-[#030712] text-white flex justify-center items-center">
+          Loading...
+        </div>
+      }
+    >
       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
         <BrowserRouter>{children}</BrowserRouter>
       </ThemeProvider>

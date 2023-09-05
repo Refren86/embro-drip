@@ -31,9 +31,16 @@
     "women": "Women",
     "seeAll": "See All"
   },
+  "shortDescription": "Only high-quality and stylish clothes with embroidery at an affordable price",
   "subscribe": {
     "text": "Subscribe for updates:",
     "button": "Subscribe"
+  },
+  "information": {
+    "title": "Information",
+    "contactUs": "Contact Us",
+    "aboutUs": "About Us",
+    "paymentAndDelivery": "Payment and delivery"
   },
   "contacts": {
     "title": "Contacts",
@@ -42,5 +49,8 @@
     "schedule": "Schedule:",
     "weekdays": "Mon-Fri:",
     "weekends": "Sat-Sun:"
-  }
+  },
+  "recommended": "Recommended",
+  "newProducts": "New products",
+  "discountedProducts": "Discounted products"
 }

@@ -31,9 +31,16 @@
     "women": "Жіноче",
     "seeAll": "Дивитись усі"
   },
+  "shortDescription": "Лише якісний та стильний одяг з вишивкою за доступною ціною",
   "subscribe": {
     "text": "Підпишіться на оновлення:",
     "button": "Підписатись"
+  },
+  "information": {
+    "title": "Інформація",
+    "contactUs": "Зворотній зв'язок",
+    "aboutUs": "Про нас",
+    "paymentAndDelivery": "Оплата та доставка"
   },
   "contacts": {
     "title": "Контакти",
@@ -42,5 +49,8 @@
     "schedule": "Графік роботи:",
     "weekdays": "Пн-Пт:",
     "weekends": "Суб-Нед:"
-  }
+  },
+  "recommended": "Рекомендуємо",
+  "newProducts": "Нові товари",
+  "discountedProducts": "Товари зі знижкою"
 }

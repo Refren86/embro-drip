@@ -3,10 +3,10 @@ import { Trans, useTranslation } from "react-i18next";
 import { Link, useSearchParams } from "react-router-dom";
 import { ShoppingCart, User } from "lucide-react";
 
-import { cn, getCountryFlagCodeByLanguage } from "@/lib/utils";
-import Logo from "../assets/icons/logo-white.svg";
 import { LoginModal } from "./LoginModal";
 import { SignUpModal } from "./SignUpModal";
+import { cn, getCountryFlagCodeByLanguage } from "@/lib/utils";
+import Logo from "../assets/icons/logo-white.svg";
 
 type LanguagesCodes = "en" | "uk";
 type NativeNames = {

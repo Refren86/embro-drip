@@ -1,14 +1,22 @@
 import { useCallback, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { Swiper as SwiperType } from "swiper";
 
-import { CategoriesControls } from "./CategoriesControls";
-import { CategoriesSwiper } from "./CategoriesSwiper";
+import { Slide } from "@/types/common";
+import { SlidesPerViewSwiper } from "./SlidesPerViewSwiper";
+import { SlidesPerViewSwiperControls } from "./SlidesPerViewSwiperControls";
 
-function Categories() {
-  const { t } = useTranslation();
+type SlidesPerViewSwiperWrapperProps = {
+  title: string;
+  slides: Slide[];
+  buttonCenter?: boolean;
+};
 
-  const [categorySwiper, setCategorySwiper] = useState<SwiperType | null>(null);
+function SlidesPerViewSwiperWrapper({
+  slides,
+  title,
+  buttonCenter
+}: SlidesPerViewSwiperWrapperProps) {
+  const [swiper, setSwiper] = useState<SwiperType | null>(null);
   const [isBeginning, setIsBeginning] = useState<boolean>(true);
   const [isEnd, setIsEnd] = useState<boolean>(false);
 
@@ -32,18 +40,20 @@ function Categories() {
   return (
     <div className="mt-24">
       <div className="flex justify-between items-center">
-        <h2 className="font-bold text-4xl">{t("categories.title")}</h2>
+        <h2 className="font-bold text-4xl">{title}</h2>
 
-        <CategoriesControls
-          categorySwiper={categorySwiper}
+        <SlidesPerViewSwiperControls
+          swiper={swiper}
           isBeginning={isBeginning}
           isEnd={isEnd}
         />
       </div>
 
-      <CategoriesSwiper
-        categorySwiper={categorySwiper}
-        setCategorySwiper={setCategorySwiper}
+      <SlidesPerViewSwiper
+        swiper={swiper}
+        slides={slides}
+        buttonCenter={buttonCenter}
+        setSwiper={setSwiper}
         onSwipeProgress={handleSwipeProgress}
         onReachBeginning={handleReachBeginning}
         onReachEnd={handleReachEnd}
@@ -52,4 +62,4 @@ function Categories() {
   );
 }
 
-export { Categories };
+export { SlidesPerViewSwiperWrapper };

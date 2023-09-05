@@ -146,7 +146,7 @@ function SignUpModal({
 
             <p className="text-center">
               <Trans
-                i18nKey="login.signUpRedirect"
+                i18nKey="signUp.signInRedirect"
                 components={{
                   Link: (
                     <Link

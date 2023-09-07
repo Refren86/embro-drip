@@ -28,7 +28,7 @@ export const loginSchema = () => {
   });
 };
 
-export type loginData = z.infer<ReturnType<typeof loginSchema>>;
+export type TLoginData = z.infer<ReturnType<typeof loginSchema>>;
 
 export type signUpData = {
   email: string;

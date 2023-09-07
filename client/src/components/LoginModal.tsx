@@ -1,18 +1,17 @@
-import { z } from 'zod';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { Trans, useTranslation } from 'react-i18next';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-import { client } from '@/lib/trpc';
 import { trailingDots } from '@/lib/utils';
-import { loginData, loginSchema } from '@/zod.schemas';
+import { useAppDispatch } from '@/store/hooks';
+import { TLoginData, loginSchema } from '@/zod.schemas';
 import { Input } from './ui/Input';
 import { Button } from './ui/Button';
-import { useToast } from './ui/useToast';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from './ui/Dialog';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from './ui/Form';
+import { login } from '@/store/slices/userSlice';
 
 type LoginModalProps = {
   isOpen: boolean;
@@ -22,11 +21,11 @@ type LoginModalProps = {
 
 function LoginModal({ isOpen, toggleLoginModal, toggleModals }: LoginModalProps) {
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
 
-  const { toast } = useToast();
   const [isLoggingIn, setLoggingIn] = useState(false);
 
-  const form = useForm<loginData>({
+  const form = useForm<TLoginData>({
     resolver: zodResolver(loginSchema()),
     defaultValues: {
       email: '',
@@ -34,19 +33,11 @@ function LoginModal({ isOpen, toggleLoginModal, toggleModals }: LoginModalProps)
     },
   });
 
-  async function onSubmit(data: loginData) {
+  async function onSubmit(data: TLoginData) {
     try {
       setLoggingIn(true);
 
-      const userData = await client.auth.login.mutate(data);
-
-      if (userData && userData.accessToken) {
-        localStorage.setItem('accessToken', userData.accessToken);
-
-        toast({
-          title: 'Logged in successfully',
-        });
-      }
+      await dispatch(login(data));
 
       toggleLoginModal();
     } catch (error) {

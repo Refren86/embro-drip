@@ -33,25 +33,15 @@ function updateTranslations() {
   translationData.passwordError = i18n.t('login.passwordError');
 }
 
-// i18next seems ready -> initial fill translations
 if (i18n.isInitialized) {
-  console.log('Initialized!!!');
-
   updateTranslations();
 }
 
 // reset translations to new values on language change
-i18n.on('languageChanged', function (lng) {
-  console.log('Changed!!!', lng);
-
+i18n.on('languageChanged', function () {
   updateTranslations();
-  console.log('Data: ', translationData);
 });
 
-// we loaded some translation file? reset needed?!?
-// https://www.i18next.com/overview/api#store-events
-i18n.on('loaded', function (lng) {
-  console.log('Loaded!!!');
-
+i18n.on('loaded', function () {
   updateTranslations();
 });

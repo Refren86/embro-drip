@@ -1,6 +1,7 @@
 import { ReactNode, Suspense } from "react";
 import { BrowserRouter } from "react-router-dom";
 
+import { Toaster } from "@/components/ui/Toaster";
 import { ThemeProvider } from "./ThemeProvider";
 
 function GeneralProvider({ children }: { children: ReactNode }) {
@@ -15,6 +16,7 @@ function GeneralProvider({ children }: { children: ReactNode }) {
     >
       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
         <BrowserRouter>{children}</BrowserRouter>
+        <Toaster />
       </ThemeProvider>
     </Suspense>
   );

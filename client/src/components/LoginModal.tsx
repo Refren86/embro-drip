@@ -1,21 +1,18 @@
-import { z } from "zod";
-import { Link } from "react-router-dom";
-import { useForm } from "react-hook-form";
-import { Trans, useTranslation } from "react-i18next";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from 'zod';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { Trans, useTranslation } from 'react-i18next';
+import { zodResolver } from '@hookform/resolvers/zod';
 
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/Dialog";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "./ui/Form";
-import { Input } from "./ui/Input";
-import { Button } from "./ui/Button";
-import { trailingDots } from "@/lib/utils";
+import { client } from '@/lib/trpc';
+import { trailingDots } from '@/lib/utils';
+import { loginData, loginSchema } from '@/zod.schemas';
+import { Input } from './ui/Input';
+import { Button } from './ui/Button';
+import { useToast } from './ui/useToast';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from './ui/Dialog';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from './ui/Form';
 
 type LoginModalProps = {
   isOpen: boolean;
@@ -23,57 +20,58 @@ type LoginModalProps = {
   toggleModals: () => void;
 };
 
-function LoginModal({
-  isOpen,
-  toggleLoginModal,
-  toggleModals,
-}: LoginModalProps) {
+function LoginModal({ isOpen, toggleLoginModal, toggleModals }: LoginModalProps) {
   const { t } = useTranslation();
 
-  const loginSchema = z.object({
-    email: z.string().email({ message: t("login.emailError") }),
-    password: z.string().min(6, t("login.passwordError")),
-  });
+  const { toast } = useToast();
+  const [isLoggingIn, setLoggingIn] = useState(false);
 
-  const form = useForm<z.infer<typeof loginSchema>>({
-    resolver: zodResolver(loginSchema),
+  const form = useForm<loginData>({
+    resolver: zodResolver(loginSchema()),
     defaultValues: {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
     },
   });
 
-  function onSubmit(data: z.infer<typeof loginSchema>) {
-    console.log("Data >>>", data);
-    toggleLoginModal();
+  async function onSubmit(data: loginData) {
+    try {
+      setLoggingIn(true);
+
+      const userData = await client.auth.login.mutate(data);
+
+      if (userData && userData.accessToken) {
+        localStorage.setItem('accessToken', userData.accessToken);
+
+        toast({
+          title: 'Logged in successfully',
+        });
+      }
+
+      toggleLoginModal();
+    } catch (error) {
+    } finally {
+      setLoggingIn(false);
+    }
   }
 
   return (
     <Dialog open={isOpen} onOpenChange={toggleLoginModal}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className="text-2xl font-bold">
-            {t("login.title")}
-          </DialogTitle>
+          <DialogTitle className="text-2xl font-bold">{t('login.title')}</DialogTitle>
         </DialogHeader>
 
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-4 mt-4"
-          >
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mt-4">
             <FormField
               control={form.control}
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{t("login.email")}</FormLabel>
+                  <FormLabel>{t('login.email')}</FormLabel>
                   <FormControl>
-                    <Input
-                      type="email"
-                      placeholder={trailingDots(t("login.email"))}
-                      {...field}
-                    />
+                    <Input type="email" placeholder={trailingDots(t('login.email'))} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -85,13 +83,9 @@ function LoginModal({
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{t("login.password")}</FormLabel>
+                  <FormLabel>{t('login.password')}</FormLabel>
                   <FormControl>
-                    <Input
-                      type="password"
-                      placeholder={trailingDots(t("login.password"))}
-                      {...field}
-                    />
+                    <Input type="password" placeholder={trailingDots(t('login.password'))} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -99,8 +93,8 @@ function LoginModal({
             />
 
             <div className="pt-2">
-              <Button type="submit" className="w-full">
-                {t("login.signIn")}
+              <Button type="submit" className="w-full" disabled={isLoggingIn}>
+                {t('login.signIn')}
               </Button>
             </div>
 
@@ -108,13 +102,7 @@ function LoginModal({
               <Trans
                 i18nKey="login.signUpRedirect"
                 components={{
-                  Link: (
-                    <Link
-                      to="?sign-up=true"
-                      className="underline"
-                      onClick={toggleModals}
-                    />
-                  ),
+                  Link: <Link to="?sign-up=true" className="underline" onClick={toggleModals} />,
                 }}
               />
             </p>

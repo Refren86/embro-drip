@@ -1,22 +1,10 @@
-import { adminProcedureMiddleware, t } from "../trpc";
-import { userRouter } from "./users";
+import { authUserProcedureMiddleware, t } from '../trpc';
+import { authRouter } from './auth';
 
 export const appRouter = t.router({
-  sayHi: t.procedure.query(() => "Hi"),
-  logToServer: t.procedure
-    .input((val) => {
-      // validation of input
-      if (typeof val === "string") return val;
-
-      throw new Error("Invalid input: Expected string");
-    })
-    .mutation((req) => {
-      console.log("Client says: ", req.input);
-      return true;
-    }),
-  users: userRouter,
-  secretData: adminProcedureMiddleware.query(({ ctx }) => {
-    console.log(ctx.user);
-    return "Super top secret admin data";
+  auth: authRouter,
+  somethingProtected: authUserProcedureMiddleware.query(({ ctx }) => {
+    console.log('Context >', ctx);
+    return 'Ok';
   }),
 });

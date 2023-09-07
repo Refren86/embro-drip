@@ -1,21 +1,16 @@
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from 'zod';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { Trans, useTranslation } from 'react-i18next';
+import { zodResolver } from '@hookform/resolvers/zod';
 
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/Dialog";
-import { useForm } from "react-hook-form";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "./ui/Form";
-import { Input } from "./ui/Input";
-import { Button } from "./ui/Button";
-import { Link } from "react-router-dom";
-import { Trans, useTranslation } from "react-i18next";
-import { trailingDots } from "@/lib/utils";
+import { client } from '@/lib/trpc';
+import { trailingDots } from '@/lib/utils';
+import { Input } from './ui/Input';
+import { Button } from './ui/Button';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from './ui/Dialog';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from './ui/Form';
 
 type SignUpModalProps = {
   isOpen: boolean;
@@ -26,29 +21,32 @@ type SignUpModalProps = {
 const signUpSchema = z.object({
   name: z.string(),
   surname: z.string(),
-  email: z.string().email({ message: "Введено невірний формат" }),
-  password: z.string().min(6, "Пароль надто короткий"),
+  email: z.string().email({ message: 'Введено невірний формат' }),
+  password: z.string().min(6, 'Пароль надто короткий'),
 });
 
-function SignUpModal({
-  isOpen,
-  toggleSignUpModal,
-  toggleModals,
-}: SignUpModalProps) {
+function SignUpModal({ isOpen, toggleSignUpModal, toggleModals }: SignUpModalProps) {
   const { t } = useTranslation();
+  const [isSigningUp, setSigningUp] = useState(false);
 
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
-      name: "",
-      surname: "",
-      email: "",
-      password: "",
+      name: '',
+      surname: '',
+      email: '',
+      password: '',
     },
   });
 
-  function onSubmit(data: z.infer<typeof signUpSchema>) {
-    console.log("Data >>>", data);
+  async function onSubmit(data: z.infer<typeof signUpSchema>) {
+    setSigningUp(true);
+    const userData = await client.auth.createUser.mutate(data);
+
+    if (userData && userData.accessToken) {
+      localStorage.setItem('accessToken', userData.accessToken);
+    }
+
     toggleSignUpModal();
   }
 
@@ -56,28 +54,19 @@ function SignUpModal({
     <Dialog open={isOpen} onOpenChange={toggleSignUpModal}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className="text-2xl font-bold">
-            {t("signUp.title")}
-          </DialogTitle>
+          <DialogTitle className="text-2xl font-bold">{t('signUp.title')}</DialogTitle>
         </DialogHeader>
 
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-4 mt-4"
-          >
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mt-4">
             <FormField
               control={form.control}
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{t("signUp.name")}</FormLabel>
+                  <FormLabel>{t('signUp.name')}</FormLabel>
                   <FormControl>
-                    <Input
-                      type="text"
-                      placeholder={trailingDots(t("signUp.name"))}
-                      {...field}
-                    />
+                    <Input type="text" placeholder={trailingDots(t('signUp.name'))} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -89,13 +78,9 @@ function SignUpModal({
               name="surname"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{t("signUp.surname")}</FormLabel>
+                  <FormLabel>{t('signUp.surname')}</FormLabel>
                   <FormControl>
-                    <Input
-                      type="text"
-                      placeholder={trailingDots(t("signUp.surname"))}
-                      {...field}
-                    />
+                    <Input type="text" placeholder={trailingDots(t('signUp.surname'))} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -107,13 +92,9 @@ function SignUpModal({
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{t("signUp.email")}</FormLabel>
+                  <FormLabel>{t('signUp.email')}</FormLabel>
                   <FormControl>
-                    <Input
-                      type="email"
-                      placeholder={trailingDots(t("signUp.email"))}
-                      {...field}
-                    />
+                    <Input type="email" placeholder={trailingDots(t('signUp.email'))} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -125,13 +106,9 @@ function SignUpModal({
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{t("signUp.password")}</FormLabel>
+                  <FormLabel>{t('signUp.password')}</FormLabel>
                   <FormControl>
-                    <Input
-                      type="password"
-                      placeholder={trailingDots(t("signUp.password"))}
-                      {...field}
-                    />
+                    <Input type="password" placeholder={trailingDots(t('signUp.password'))} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -139,8 +116,8 @@ function SignUpModal({
             />
 
             <div className="pt-2">
-              <Button type="submit" className="w-full">
-                {t("signUp.signUp")}
+              <Button type="submit" className="w-full" disabled={isSigningUp}>
+                {t('signUp.signUp')}
               </Button>
             </div>
 
@@ -148,13 +125,7 @@ function SignUpModal({
               <Trans
                 i18nKey="signUp.signInRedirect"
                 components={{
-                  Link: (
-                    <Link
-                      to="?login=true"
-                      className="underline"
-                      onClick={toggleModals}
-                    />
-                  ),
+                  Link: <Link to="?login=true" className="underline" onClick={toggleModals} />,
                 }}
               />
             </p>

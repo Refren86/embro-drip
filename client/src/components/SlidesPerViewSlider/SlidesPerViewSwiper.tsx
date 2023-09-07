@@ -45,7 +45,7 @@ const SlidesPerViewSwiper = memo(
         className="mt-12 h-[500px]"
       >
         {slides.map((slide) => (
-          <SwiperSlide key={slide.title} className="group overflow-hidden">
+          <SwiperSlide key={slide.id} className="group overflow-hidden">
             <Link to={`/categories/${slide.id}`} className="relative">
               <img
                 src={slide.image}

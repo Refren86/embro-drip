@@ -40,3 +40,12 @@ export const signUpSchema = () => {
 };
 
 export type TSignUpData = z.infer<ReturnType<typeof signUpSchema>>;
+
+export const categorySchema = z.object({
+  id: z.string().optional(),
+  title: z.string(),
+  image: z.string(),
+  items: z.array(z.string()).optional(),
+});
+
+export type TCategory = z.infer<typeof categorySchema>

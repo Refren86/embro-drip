@@ -80,8 +80,6 @@ function Navbar() {
     }
   }
 
-  console.log('User >>>', user);
-
   return (
     <div>
       <div className="bg-primary h-8 flex justify-center items-center">
@@ -154,8 +152,8 @@ function Navbar() {
                             </div>
                           </div>
 
-                          <Button variant="destructive">
-                            <X />
+                          <Button variant="destructive" size="sm">
+                            <X size={18} />
                           </Button>
                         </div>
                       </DropdownMenuItem>

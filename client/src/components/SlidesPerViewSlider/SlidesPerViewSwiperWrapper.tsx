@@ -7,7 +7,7 @@ import { SlidesPerViewSwiperControls } from "./SlidesPerViewSwiperControls";
 
 type SlidesPerViewSwiperWrapperProps = {
   title: string;
-  slides: Slide[];
+  slides: any[];
   buttonCenter?: boolean;
 };
 

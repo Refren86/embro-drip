@@ -87,6 +87,14 @@ body {
   background: hsl(var(--primary));
 }
 
+::-moz-selection {
+  background: hsl(var(--primary));
+}
+
+::selection {
+  background: hsl(var(--primary));
+}
+
 .home-slider {
   max-width: 1200px;
   border-radius: 0.75rem;

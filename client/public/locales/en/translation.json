@@ -1,6 +1,10 @@
 {
   "navbar": {
-    "promotion": "Sign up and get <b>20% discount</b> on your first order. <Link><b>Sign up</b></Link>"
+    "promotion": "Sign up and get <b>20% discount</b> on your first order. <Link><b>Sign up</b></Link>",
+    "account": "My Account",
+    "settings": "Settings",
+    "shoppingHistory": "Shopping history",
+    "logOut": "Log out"
   },
   "login": {
     "title": "Login",

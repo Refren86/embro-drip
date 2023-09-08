@@ -1,12 +1,13 @@
-import { z } from 'zod';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { Trans, useTranslation } from 'react-i18next';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-import { client } from '@/lib/trpc';
 import { trailingDots } from '@/lib/utils';
+import { useAppDispatch } from '@/store/hooks';
+import { signUp } from '@/store/slices/userSlice';
+import { TSignUpData, signUpSchema } from '@/zod.schemas';
 import { Input } from './ui/Input';
 import { Button } from './ui/Button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from './ui/Dialog';
@@ -18,19 +19,14 @@ type SignUpModalProps = {
   toggleModals: () => void;
 };
 
-const signUpSchema = z.object({
-  name: z.string(),
-  surname: z.string(),
-  email: z.string().email({ message: 'Введено невірний формат' }),
-  password: z.string().min(6, 'Пароль надто короткий'),
-});
-
 function SignUpModal({ isOpen, toggleSignUpModal, toggleModals }: SignUpModalProps) {
+  const dispatch = useAppDispatch();
   const { t } = useTranslation();
+
   const [isSigningUp, setSigningUp] = useState(false);
 
-  const form = useForm<z.infer<typeof signUpSchema>>({
-    resolver: zodResolver(signUpSchema),
+  const form = useForm<TSignUpData>({
+    resolver: zodResolver(signUpSchema()),
     defaultValues: {
       name: '',
       surname: '',
@@ -39,15 +35,11 @@ function SignUpModal({ isOpen, toggleSignUpModal, toggleModals }: SignUpModalPro
     },
   });
 
-  async function onSubmit(data: z.infer<typeof signUpSchema>) {
+  async function onSubmit(data: TSignUpData) {
     setSigningUp(true);
-    const userData = await client.auth.createUser.mutate(data);
-
-    if (userData && userData.accessToken) {
-      localStorage.setItem('accessToken', userData.accessToken);
-    }
-
+    await dispatch(signUp(data));
     toggleSignUpModal();
+    setSigningUp(false);
   }
 
   return (

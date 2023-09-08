@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { TRPCError } from '@trpc/server';
 
-import { t } from '../trpc';
+import { authUserProcedureMiddleware, t } from '../trpc';
 import { UserDto } from '../dto/user.dto';
 import UserModel from '../models/user.model';
 import { UserDtoSchema, UserSchema } from '../zod.schemas';
@@ -50,4 +50,17 @@ export const authRouter = t.router({
 
       return { ...new UserDto(existingUser), accessToken };
     }),
+  getUser: authUserProcedureMiddleware.query(async ({ ctx }) => {
+    const tokenData = ctx.user;
+
+    if (tokenData) {
+      const userData = await UserModel.findOne({ email: tokenData.email });
+
+      if (userData) {
+        return new UserDto(userData);
+      }
+    }
+
+    throw new TRPCError({ code: 'UNAUTHORIZED' });
+  }),
 });

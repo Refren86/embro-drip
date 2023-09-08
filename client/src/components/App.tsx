@@ -1,10 +1,13 @@
-import { useEffect } from "react";
-import Lenis from "@studio-freight/lenis";
+import { useEffect } from 'react';
+import Lenis from '@studio-freight/lenis';
 
-import { Routing } from "@/components/Routing";
-import { GeneralProvider } from "@/providers/GeneralProvider";
+import { Routing } from '@/components/Routing';
+import { useAppDispatch } from '@/store/hooks';
+import { getUser } from '@/store/slices/userSlice';
 
 function App() {
+  const dispatch = useAppDispatch();
+
   useEffect(() => {
     const lenis = new Lenis();
 
@@ -16,11 +19,11 @@ function App() {
     requestAnimationFrame(raf);
   }, []);
 
-  return (
-    <GeneralProvider>
-      <Routing />
-    </GeneralProvider>
-  );
+  useEffect(() => {
+    dispatch(getUser());
+  }, []);
+
+  return <Routing />;
 }
 
 export { App };

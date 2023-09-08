@@ -20,8 +20,8 @@ type LoginModalProps = {
 };
 
 function LoginModal({ isOpen, toggleLoginModal, toggleModals }: LoginModalProps) {
-  const { t } = useTranslation();
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   const [isLoggingIn, setLoggingIn] = useState(false);
 
@@ -34,16 +34,10 @@ function LoginModal({ isOpen, toggleLoginModal, toggleModals }: LoginModalProps)
   });
 
   async function onSubmit(data: TLoginData) {
-    try {
-      setLoggingIn(true);
-
-      await dispatch(login(data));
-
-      toggleLoginModal();
-    } catch (error) {
-    } finally {
-      setLoggingIn(false);
-    }
+    setLoggingIn(true);
+    await dispatch(login(data));
+    toggleLoginModal();
+    setLoggingIn(false);
   }
 
   return (

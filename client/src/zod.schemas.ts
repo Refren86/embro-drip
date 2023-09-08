@@ -6,16 +6,16 @@ export const UserSchema = z.object({
   name: z.string(),
   surname: z.string(),
   email: z.string(),
-  password: z.string(),
   role: z.string().optional(),
+  password: z.string(),
 });
 
 export const UserDtoSchema = z.object({
   name: z.string(),
   surname: z.string(),
   email: z.string(),
-  accessToken: z.string().optional(),
   role: z.string().optional(),
+  accessToken: z.string().optional(),
 });
 
 export type TUser = z.infer<typeof UserSchema>;
@@ -30,7 +30,13 @@ export const loginSchema = () => {
 
 export type TLoginData = z.infer<ReturnType<typeof loginSchema>>;
 
-export type signUpData = {
-  email: string;
-  password: string;
+export const signUpSchema = () => {
+  return z.object({
+    name: z.string(),
+    surname: z.string(),
+    email: z.string().email({ message: translationData.emailError }),
+    password: z.string().min(6, translationData.passwordError),
+  });
 };
+
+export type TSignUpData = z.infer<ReturnType<typeof signUpSchema>>;

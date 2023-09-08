@@ -12,8 +12,8 @@ export const UserDtoSchema = z.object({
   name: z.string(),
   surname: z.string(),
   email: z.string(),
-  accessToken: z.string().optional(),
   role: z.string().optional(),
+  accessToken: z.string().optional(),
 });
 
 export type TUser = z.infer<typeof UserSchema>;

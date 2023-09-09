@@ -36,7 +36,7 @@ function Recommended() {
   ];
 
   return (
-    <SlidesPerViewSwiperWrapper slides={recommended} title={t("recommended")} />
+    <SlidesPerViewSwiperWrapper slides={recommended} title={t("recommended")} withCartIcon />
   );
 }
 

@@ -8,7 +8,7 @@ import { Layout } from "../../components/Layout";
 import SlidePlaceholder from "../../assets/images/slider/slider-placeholder.webp";
 import { Discounts } from "./Discounts";
 
-// TODO: 1) new clothes; 2) discounts; 3) recommended; 4) why should choose us
+// TODO: why should choose us
 
 function Home() {
   return (

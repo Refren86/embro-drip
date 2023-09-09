@@ -17,8 +17,15 @@ export const UserDtoSchema = z.object({
   accessToken: z.string().optional(),
 });
 
-export const categorySchema = z.object({
-  id: z.custom<Types.ObjectId>().optional(),
+export const CategorySchema = z.object({
+  _id: z.custom<Types.ObjectId>(),
+  title: z.string(),
+  image: z.string(),
+  items: z.array(z.custom<Types.ObjectId>()).optional(),
+});
+
+export const CategoryDtoSchema = z.object({
+  id: z.custom<Types.ObjectId>(),
   title: z.string(),
   image: z.string(),
   items: z.array(z.custom<Types.ObjectId>()).optional(),
@@ -26,3 +33,5 @@ export const categorySchema = z.object({
 
 export type TUser = z.infer<typeof UserSchema>;
 export type TUserDto = z.infer<typeof UserDtoSchema>;
+export type TCategory = z.infer<typeof CategorySchema>;
+export type TCategoryDto = z.infer<typeof CategoryDtoSchema>;

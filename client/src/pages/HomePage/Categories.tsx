@@ -1,16 +1,9 @@
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-// import { Slide } from '@/types/common';
-import { SlidesPerViewSwiperWrapper } from '@/components/SlidesPerViewSlider/SlidesPerViewSwiperWrapper';
-
-// import HoodiesImg from '../../assets/images/categories/hoodies.jpg';
-// import TShirtsImg from '../../assets/images/categories/t-shirts.jpg';
-// import HatsImg from '../../assets/images/categories/hats.jpg';
-// import MenImg from '../../assets/images/categories/men.jpg';
-// import WomanImg from '../../assets/images/categories/woman.jpg';
-import { useEffect, useState } from 'react';
 import { client } from '@/lib/trpc';
 import { TCategory } from '@/zod.schemas';
+import { SlidesPerViewSwiperWrapper } from '@/components/SlidesPerViewSlider/SlidesPerViewSwiperWrapper';
 
 function Categories() {
   const { t } = useTranslation();
@@ -18,48 +11,19 @@ function Categories() {
 
   useEffect(() => {
     async function getCategories() {
-      const categoriesData = await client.getCategories.query();
+      const categoriesData = await client.category.getCategories.query();
 
       if (categoriesData) {
-        setCategories(categoriesData.map((category) => ({ ...category, title: t(category.title) })));
+        setCategories(categoriesData);
       }
     }
 
     getCategories();
   }, []);
 
-  console.log("categories >>>", categories);
-  
+  const translatedCategories = categories.map((category) => ({ ...category, title: t(category.title) }));
 
-  // const categories: Slide[] = [
-  //   {
-  //     image: HoodiesImg,
-  //     title: t('categories.hoodies'),
-  //     id: 'hoodies',
-  //   },
-  //   {
-  //     image: TShirtsImg,
-  //     title: t('categories.tshirts'),
-  //     id: 'shirts',
-  //   },
-  //   {
-  //     image: HatsImg,
-  //     title: t('categories.caps'),
-  //     id: 'hats',
-  //   },
-  //   {
-  //     image: MenImg,
-  //     title: t('categories.men'),
-  //     id: 'men',
-  //   },
-  //   {
-  //     image: WomanImg,
-  //     title: t('categories.women'),
-  //     id: 'women',
-  //   },
-  // ];
-
-  return <SlidesPerViewSwiperWrapper slides={categories} title={t('categories.title')} buttonCenter />;
+  return <SlidesPerViewSwiperWrapper slides={translatedCategories} title={t('categories.title')} buttonCenter />;
 }
 
 export { Categories };

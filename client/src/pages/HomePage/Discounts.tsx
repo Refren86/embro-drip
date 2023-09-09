@@ -36,7 +36,7 @@ function Discounts() {
   ];
 
   return (
-    <SlidesPerViewSwiperWrapper slides={discounted} title={t("discountedProducts")} />
+    <SlidesPerViewSwiperWrapper slides={discounted} title={t("discountedProducts")} withCartIcon />
   );
 }
 

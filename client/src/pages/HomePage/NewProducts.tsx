@@ -36,7 +36,7 @@ function NewProducts() {
   ];
 
   return (
-    <SlidesPerViewSwiperWrapper slides={newProducts} title={t("newProducts")} />
+    <SlidesPerViewSwiperWrapper slides={newProducts} title={t("newProducts")} withCartIcon />
   );
 }
 

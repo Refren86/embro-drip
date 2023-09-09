@@ -1,7 +1,7 @@
-import { Swiper } from "swiper";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { Swiper } from 'swiper';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 
-import { Button } from "@/components/ui/Button";
+import { Button } from '@/components/ui/Button';
 
 type SlidesPerViewSwiperProps = {
   swiper: Swiper | null;
@@ -9,17 +9,10 @@ type SlidesPerViewSwiperProps = {
   isEnd: boolean;
 };
 
-function SlidesPerViewSwiperControls({
-  swiper,
-  isBeginning,
-  isEnd,
-}: SlidesPerViewSwiperProps) {
+function SlidesPerViewSwiperControls({ swiper, isBeginning, isEnd }: SlidesPerViewSwiperProps) {
   return (
     <div className="flex gap-x-3">
-      <Button
-        onClick={() => swiper?.slidePrev()}
-        disabled={isBeginning}
-      >
+      <Button onClick={() => swiper?.slidePrev()} disabled={isBeginning}>
         <ArrowLeft size={18} />
       </Button>
       <Button onClick={() => swiper?.slideNext()} disabled={isEnd}>

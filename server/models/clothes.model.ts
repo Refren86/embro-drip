@@ -33,11 +33,11 @@ const clothesSchema = new Schema(
       type: Number,
       required: false,
     },
-    category: {
+    category: [{
       type: Schema.Types.ObjectId,
       ref: 'category',
       required: true,
-    },
+    }],
     images: [String],
   },
   {
